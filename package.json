@@ -1,0 +1,19 @@
+{
+  "name": "ktisis-role-merger",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "start": "node ./dist/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "eris": "^0.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "rimraf": "^3.0.2"
+  }
+}
