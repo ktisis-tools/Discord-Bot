@@ -1,6 +1,6 @@
 # Discord-Bot
 
-A simple Discord bot written to handle the merging of roles, using the Eris library.
+A simple Discord bot written for Ktisis to handle the merging of roles, using the Eris library.
 
 ## Setup
 
