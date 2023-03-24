@@ -1,5 +1,5 @@
 import { Client, Guild, Member } from "eris";
-import { grantedRoles, roleToAdd, roleTriggers } from "../util/config";
+import { extraRoles, roleToAdd, roleTriggers } from "../util/config";
 
 export default async (client: Client, guild: Guild, member: Member) => {
   if (guild.id !== process.env.DISCORD_GUILD_ID) return;
@@ -23,11 +23,11 @@ export default async (client: Client, guild: Guild, member: Member) => {
     }
 
     /**
-     * Remove all roles previously granted by other means, regardless of action.
+     * Remove all roles previously given by other means, regardless of action.
      * Action does not change if any roles are removed, as it was not a trigger or target role of primary focus.
      */
-    for (const grantedRole of grantedRoles) {
-      const targetIndex = roles.indexOf(grantedRole);
+    for (const extraRole of extraRoles) {
+      const targetIndex = roles.indexOf(extraRole);
 
       if (targetIndex >= 0) {
         roles.splice(targetIndex, 1);
