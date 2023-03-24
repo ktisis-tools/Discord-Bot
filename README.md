@@ -22,7 +22,5 @@ yarn start
 | `DISCORD_BOT_TOKEN` | The bot token. |
 | `DISCORD_GUILD_ID` | The guild ID. |
 | `DISCORD_TRIGGER_ROLES` | The roles that trigger the bot, separated by a comma. |
-| `DISCORD_EXTRA_ROLES` | Roles that are permitted once a trigger role is given.<sup>*1</sup> |
+| `DISCORD_EXTRA_ROLES` | Additional roles that are removed when the `DISCORD_ROLE_TO_ADD` is removed. |
 | `DISCORD_ROLE_TO_ADD` | The role to add to the user, if they have any trigger role. |
-
-> <sup>*1</sup> Granted roles are only utilized when [removing roles from a guild member](https://github.com/ktisis-tools/Discord-Bot/blob/HEAD/src/events/guildMemberUpdate.ts#L27-L34).
