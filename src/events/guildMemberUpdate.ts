@@ -4,6 +4,8 @@ import { grantedRoles, roleToAdd, roleTriggers } from "../util/config";
 export default async (client: Client, guild: Guild, member: Member) => {
   if (guild.id !== process.env.DISCORD_GUILD_ID) return;
 
+  if (member.bot) return;
+
   const roles = member.roles.slice();
   const roleIndex = roles.indexOf(roleToAdd);
 
