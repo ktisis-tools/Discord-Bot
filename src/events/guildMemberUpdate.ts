@@ -36,10 +36,10 @@ export default async (client: Client, guild: Guild, member: Member) => {
   }
 
   if (roles.length !== member.roles.length) {
-    await member.edit({ roles });
+    const reason = `Role was ${action}`;
 
-    if (action) {
-      console.log(`[${new Date().toUTCString()}] Role ${roleToAdd} was ${action} for ${member.username}.`);
-    }
+    await member.edit({ roles }, `${reason}. (Gateway)`);
+    
+    console.log(`[${new Date().toUTCString()}] Role ${roleToAdd} was ${action} for ${member.username}.`);
   }
 }
