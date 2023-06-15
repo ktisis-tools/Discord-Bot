@@ -1,5 +1,8 @@
 import { Client, Guild, Member } from "eris";
-import { extraRoles, roleToAdd, roleTriggers } from "../util/config";
+
+import { extraRoles, roleToAdd } from "../util/config";
+import { hasSomeTrigger, updateMemberRoles } from "../util/common";
+import { RoleAction, RoleSource } from "../util/types";
 
 export default async (client: Client, guild: Guild, member: Member) => {
   if (guild.id !== process.env.DISCORD_GUILD_ID) return;
@@ -9,17 +12,17 @@ export default async (client: Client, guild: Guild, member: Member) => {
   const roles = member.roles.slice();
   const roleIndex = roles.indexOf(roleToAdd);
 
-  let action: 'added' | 'removed' | null = null;
+  let action: RoleAction = null;
 
-  if (roles.some(r => roleTriggers.includes(r))) {
+  if (hasSomeTrigger(roles)) {
     if (roleIndex < 0) {
       roles.push(roleToAdd);
-      action = 'added';
+      action = RoleAction.ADDED;
     }
   } else {
     if (roles.includes(roleToAdd)) {
       roles.splice(roleIndex, 1);
-      action = 'removed';
+      action = RoleAction.REMOVED;
     }
 
     /**
@@ -35,11 +38,5 @@ export default async (client: Client, guild: Guild, member: Member) => {
     }
   }
 
-  if (roles.length !== member.roles.length) {
-    await member.edit({ roles });
-
-    if (action) {
-      console.log(`[${new Date().toUTCString()}] Role ${roleToAdd} was ${action} for ${member.username}.`);
-    }
-  }
+  updateMemberRoles(member, roles, action, RoleSource.GATEWAY);
 }
