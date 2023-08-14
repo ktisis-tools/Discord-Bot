@@ -16,3 +16,15 @@ export async function updateMemberRoles(member: Member, roles: string[], action:
 }
 
 export const hasSomeTrigger = (roles: string[]) => roles.some(role => roleTriggers.includes(role));
+
+/**
+ * Run the `callback {4}` at each `interval {1}`, with an option to `offset {2}` and `shortCall {3}`.
+ */
+export function setFixedInterval(interval: number, offset: number, shortCall: boolean, callback: Function) {
+  setTimeout(() => {
+    if (shortCall) callback();
+    setInterval(() => {
+      callback();
+    }, interval);
+  }, Date.now() % interval + offset);
+}
