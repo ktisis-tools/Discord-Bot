@@ -26,5 +26,5 @@ export function setFixedInterval(interval: number, offset: number, shortCall: bo
     setInterval(() => {
       callback();
     }, interval);
-  }, Date.now() % interval + offset);
+  }, interval - Date.now() % interval + offset);
 }
