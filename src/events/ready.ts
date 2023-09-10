@@ -10,7 +10,8 @@ export default (client: Client) => {
   // Run interval at midnight UTC
   setFixedInterval(864e5, 0, true, () => {
     const guild = client.guilds.get(guildId);
+    const now = Math.floor(Date.now() / 1000);
 
-    client.createMessage(joinLogChannel, `Total member count for <t:${Date.now()}:d>: ${guild.memberCount}`);
+    client.createMessage(joinLogChannel, `Total member count for <t:${now}:d>: ${guild.memberCount}`);
   });
 }
