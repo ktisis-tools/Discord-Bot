@@ -24,6 +24,7 @@ yarn start
 | `DISCORD_TRIGGER_ROLES` | The roles that trigger the bot, separated by a comma. |
 | `DISCORD_EXTRA_ROLES` | Additional roles that are removed when the `DISCORD_ROLE_TO_ADD` is removed. |
 | `DISCORD_ROLE_TO_ADD` | The role to add to the user, if they have any trigger role. |
+| `DISCORD_JOIN_LOG_CHANNEL` | The channel ID to print the member count to. |
 
 ### Storing and using the bot token
 
