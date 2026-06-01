@@ -48,6 +48,7 @@ export default class MessageEvent {
     this.ready &&
     message.guildID === process.env.DISCORD_GUILD_ID &&
     message.channel.id === this.channelIDs.spamSnare &&
+    message.type === 0 &&
     message.author.id !== this._client.user.id &&
     message.member.id !== message.member.guild.ownerID
   );
@@ -64,8 +65,8 @@ export default class MessageEvent {
       modMessage += " *Could not send direct message.*";
     }
 
-    message.member.ban(1, this.reason);
+    await message.member.ban(1, this.reason);
 
-    this._client.createMessage(this.channelIDs.actionLog, modMessage);
+    await this._client.createMessage(this.channelIDs.actionLog, modMessage);
   }
 }
