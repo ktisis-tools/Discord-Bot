@@ -4,7 +4,6 @@ type ChannelType = 'actionLog' | 'spamSnare';
 
 export default class MessageEvent {
   channelIDs: Record<ChannelType, string>;
-  channelTargets: Record<ChannelType, TextableChannel>;
 
   _client: Client;
 
@@ -24,12 +23,6 @@ export default class MessageEvent {
   }
 
   async init(): Promise<void> {
-    this.channelTargets = {} as typeof this.channelTargets;
-
-    for (const cKey in this.channelIDs) {
-      this.channelTargets[cKey] = this._client.getChannel(cKey);
-    }
-    
     this._client.on('messageCreate', (message) => {
       if (!this.filter(message)) return;
       this.run(message);
