@@ -12,7 +12,7 @@ import guildMemberUpdateEvent from './events/guildMemberUpdate.js';
 import readyEvent from './events/ready.js';
 
 const client = new Client(process.env.DISCORD_BOT_TOKEN, {
-  intents: ['guilds', 'guildMembers'],
+  intents: ['guilds', 'guildMembers', 'guildMessages'],
   autoreconnect: true
 });
 
