@@ -25,6 +25,8 @@ yarn start
 | `DISCORD_EXTRA_ROLES` | Additional roles that are removed when the `DISCORD_ROLE_TO_ADD` is removed. |
 | `DISCORD_ROLE_TO_ADD` | The role to add to the user, if they have any trigger role. |
 | `DISCORD_JOIN_LOG_CHANNEL` | The channel ID to print the member count to. |
+| `DISCORD_ACTION_LOG_CHANNEL` | Channel ID to the moderator action log. |
+| `DISCORD_SPAM_SNARE_CHANNEL` | Channel ID to the spam snare / honeypot. |
 
 ### Storing and using the bot token
 

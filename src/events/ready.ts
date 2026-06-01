@@ -2,8 +2,12 @@ import { Client } from "eris";
 import { setFixedInterval } from "../util/common";
 import { guildId, joinLogChannel } from "../util/config";
 
+import MessageEvent from "./messageCreate";
+
 export default (client: Client) => {
   console.log(`Logged in as ${client.user.username}#${client.user.discriminator}!`);
+
+  new MessageEvent(client);
 
   if (!joinLogChannel) return;
 
