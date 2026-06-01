@@ -44,7 +44,14 @@ class FixedInterval {
     return this.interval - (Date.now() % this.interval) + this.offset;
   }
 
+  private clear() {
+    if (!this.ref) return;
+    clearTimeout(this.ref);
+    this.ref = null;
+  }
+
   private run() {
+    this.clear();
     this.ref = setTimeout(() => {
       this.callback();
       this.run();
@@ -52,6 +59,6 @@ class FixedInterval {
   }
 
   destroy() {
-    if (this.ref) clearTimeout(this.ref);
+    this.clear();
   }
 }
