@@ -41,7 +41,7 @@ class FixedInterval {
   }
 
   get timeUntilNextCall(): number {
-    return this.interval - Date.now() % this.interval + this.offset;
+    return this.interval - (Date.now() % this.interval) + this.offset;
   }
 
   private run() {
