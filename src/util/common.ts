@@ -25,7 +25,7 @@ export function setFixedInterval(interval: number, offset: number, shortCall: bo
 }
 
 class FixedInterval {
-  ref: NodeJS.Timer;
+  ref: ReturnType<typeof setTimeout>;
 
   constructor(
     private interval: number,
