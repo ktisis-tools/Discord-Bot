@@ -66,6 +66,6 @@ export default class MessageEvent {
 
     message.member.ban(1, this.reason);
 
-    this.channelTargets.actionLog.createMessage(modMessage);
+    this._client.createMessage(this.channelIDs.actionLog, modMessage);
   }
 }
