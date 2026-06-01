@@ -5,7 +5,7 @@ import { guildId, joinLogChannel } from "../util/config";
 import MessageEvent from "./messageCreate";
 
 export default (client: Client) => {
-  console.log(`Logged in as ${client.user.username}#${client.user.discriminator}!`);
+  console.log(`Logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})!`);
 
   new MessageEvent(client);
 
