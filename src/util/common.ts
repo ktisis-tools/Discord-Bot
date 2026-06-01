@@ -25,7 +25,6 @@ export function setFixedInterval(interval: number, offset: number, shortCall: bo
 }
 
 class FixedInterval {
-  isFirstCall: boolean = true;
   ref: NodeJS.Timer;
 
   constructor(
@@ -34,6 +33,10 @@ class FixedInterval {
     private shortCall: boolean,
     private callback: Function
   ) {
+    if (this.shortCall) {
+      this.callback();
+    }
+
     this.run();
   }
 
@@ -43,10 +46,7 @@ class FixedInterval {
 
   private run() {
     this.ref = setTimeout(() => {
-      if (!this.isFirstCall || this.shortCall) {
-        this.callback();
-      }
-      this.isFirstCall = false;
+      this.callback();
       this.run();
     }, this.timeUntilNextCall);
   }
