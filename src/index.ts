@@ -18,6 +18,6 @@ const client = new Client(process.env.DISCORD_BOT_TOKEN, {
 
 client.on('guildMemberAdd', guildMemberAdd.bind(null, client));
 client.on('guildMemberUpdate', guildMemberUpdateEvent.bind(null, client));
-client.on('ready', readyEvent.bind(null, client));
+client.once('ready', readyEvent.bind(null, client));
 
 client.connect();
