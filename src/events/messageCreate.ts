@@ -49,16 +49,18 @@ export default class MessageEvent {
   async run(message: Message<TextableChannel>) {
     await message.delete(this.reason);
 
-    let modMessage = `${this.reason} by ${message.member.mention}.`;
+    const member = message.interaction?.member ?? message.member;
+
+    let modMessage = `${this.reason} by ${member.mention}.`;
 
     try {
-      const directToMember = await message.author.getDMChannel();
+      const directToMember = await member.user.getDMChannel();
       await directToMember.createMessage("Hi, you've been banned for sending a message in a snare channel.");
     } catch (e) {
       modMessage += " *Could not send direct message.*";
     }
 
-    await message.member.ban(1, this.reason);
+    await member.ban(1, this.reason);
 
     await this._client.createMessage(this.channelIDs.actionLog, modMessage);
   }
