@@ -1,4 +1,4 @@
-import { Client, Message, Permission, type TextableChannel } from "eris";
+import { Client, Member, Message, Permission, type TextableChannel } from "eris";
 import { getHighestRole } from "../util/common";
 
 type ChannelType = 'actionLog' | 'spamSnare';
@@ -38,16 +38,28 @@ export default class MessageEvent {
    * TODO: Should probably return if the member has a higher top level role than the application.
    * - The ban attempt will fail if the member has a higher authority.
    */
-  filter = (message: Message<any>): message is Message<TextableChannel> => (
-    this.ready &&
-    message.guildID === process.env.DISCORD_GUILD_ID &&
-    message.channel.id === this.channelIDs.spamSnare &&
-    message.type === 0 &&
-    message.author.id !== this._client.user.id &&
-    message.member.id !== message.member.guild.ownerID &&
-    getHighestRole(message.member.guild.members.get(this._client.user.id)).position > getHighestRole(message.member).position &&
-    !message.member.permissions.has("administrator")
-  );
+  filter(message: Message<any>): message is Message<TextableChannel> {
+    if (!this.ready || message.type !== 0) return false;
+    if (message.guildID !== process.env.DISCORD_GUILD_ID) return false;
+    if (message.channel.id !== this.channelIDs.spamSnare) return false;
+
+    if (!message.member || message.author.id === this._client.user.id) return false;
+    
+    return this.#hasHigherAuthority(message.member);
+  };
+
+  #hasHigherAuthority(member: Member): boolean {
+    const appMember = member.guild.members.get(this._client.user.id);
+    if (!appMember) return;
+    
+    const appRole = getHighestRole(appMember);
+    const userRole = getHighestRole(member);
+    
+    const isUserAdmin = member.permissions.has("administrator");
+    const isGuildOwner = member.id === member.guild.ownerID;
+
+    return appRole.position > userRole.position && !isUserAdmin && !isGuildOwner;
+  }
 
   async run(message: Message<TextableChannel>) {
     await message.delete(this.reason);
