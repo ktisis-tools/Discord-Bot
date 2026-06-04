@@ -17,6 +17,19 @@ export async function updateMemberRoles(member: Member, roles: string[], action:
 
 export const hasSomeTrigger = (roles: string[]) => roles.some(role => roleTriggers.includes(role));
 
+export function getHighestRole(member: Member) {
+  let highest = member.guild.roles.get(member.guild.id);
+
+  for (const roleID of member.roles) {
+    const role = member.guild.roles.get(roleID);
+    if (role && role.position > highest.position) {
+      highest = role;
+    }
+  }
+
+  return highest;
+}
+
 /**
  * Run the {@link callback} at each {@link interval}, with options to {@link offset} and {@link shortCall}.
  */

@@ -1,4 +1,5 @@
-import { Client, Message, type TextableChannel } from "eris";
+import { Client, Message, Permission, type TextableChannel } from "eris";
+import { getHighestRole } from "../util/common";
 
 type ChannelType = 'actionLog' | 'spamSnare';
 
@@ -43,7 +44,9 @@ export default class MessageEvent {
     message.channel.id === this.channelIDs.spamSnare &&
     message.type === 0 &&
     message.author.id !== this._client.user.id &&
-    message.member.id !== message.member.guild.ownerID
+    message.member.id !== message.member.guild.ownerID &&
+    getHighestRole(message.member.guild.members.get(this._client.user.id)).position > getHighestRole(message.member).position &&
+    !message.member.permissions.has("administrator")
   );
 
   async run(message: Message<TextableChannel>) {
