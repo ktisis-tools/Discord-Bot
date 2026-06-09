@@ -17,6 +17,19 @@ export async function updateMemberRoles(member: Member, roles: string[], action:
 
 export const hasSomeTrigger = (roles: string[]) => roles.some(role => roleTriggers.includes(role));
 
+export function getHighestRole(member: Member) {
+  let highest = member.guild.roles.get(member.guild.id);
+
+  for (const roleID of member.roles) {
+    const role = member.guild.roles.get(roleID);
+    if (role && role.position > highest.position) {
+      highest = role;
+    }
+  }
+
+  return highest;
+}
+
 /**
  * Run the {@link callback} at each {@link interval}, with options to {@link offset} and {@link shortCall}.
  */
@@ -25,8 +38,7 @@ export function setFixedInterval(interval: number, offset: number, shortCall: bo
 }
 
 class FixedInterval {
-  isFirstCall: boolean = true;
-  ref: NodeJS.Timer;
+  ref: ReturnType<typeof setTimeout>;
 
   constructor(
     private interval: number,
@@ -34,24 +46,32 @@ class FixedInterval {
     private shortCall: boolean,
     private callback: Function
   ) {
+    if (this.shortCall) {
+      this.callback();
+    }
+
     this.run();
   }
 
   get timeUntilNextCall(): number {
-    return this.interval - Date.now() % this.interval + this.offset;
+    return this.interval - (Date.now() % this.interval) + this.offset;
+  }
+
+  private clear() {
+    if (!this.ref) return;
+    clearTimeout(this.ref);
+    this.ref = null;
   }
 
   private run() {
+    this.clear();
     this.ref = setTimeout(() => {
-      if (!this.isFirstCall || this.shortCall) {
-        this.callback();
-      }
-      this.isFirstCall = false;
+      this.callback();
       this.run();
     }, this.timeUntilNextCall);
   }
 
   destroy() {
-    if (this.ref) clearTimeout(this.ref);
+    this.clear();
   }
 }
